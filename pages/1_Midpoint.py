@@ -27,9 +27,9 @@ For example, the graph on the left represents the the value of the $\displaystyl
 # Display an image from a local file
 COL1, COL2 = st.columns(2)
 with COL1:
-    st.image('C:/Users/surya/OneDrive/Desktop/NumericalIntegration/pages/graph1.png', width= 300)
+    st.image('/pages/graph1.png', width= 300)
 with COL2:
-    st.image('C:/Users/surya/OneDrive/Desktop/NumericalIntegration/pages/midpoint.png', width= 400)
+    st.image('/pages/midpoint.png', width= 400)
 
 st.write('\n')
 
