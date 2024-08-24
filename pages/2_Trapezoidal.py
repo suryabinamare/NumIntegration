@@ -27,9 +27,9 @@ For example, the shaded region under the graph on the left graph represents the 
 # Display an image from a local file
 COL1, COL2 = st.columns(2)
 with COL1:
-    st.image('C:/Users/surya/OneDrive/Desktop/NumericalIntegration/pages/graph1.png', width= 300)
+    st.image('pages/graph1.png', width= 300)
 with COL2:
-    st.image('C:/Users/surya/OneDrive/Desktop/NumericalIntegration/pages/trapezoidal.png', width= 300)
+    st.image('pages/trapezoidal.png', width= 300)
 
 st.write('\n')
 st.write('In general, we divide the interval $[a, b]$ into n subintervals as follows, ')
