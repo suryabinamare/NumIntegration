@@ -60,9 +60,9 @@ The graph on the right shows the graph of $y = \sin(x)$ is approximated by the p
 # Display an image from a local file
 COL1, COL2 = st.columns(2, gap = 'medium', vertical_alignment= 'center')
 with COL1:
-    st.image('C:/Users/surya/OneDrive/Desktop/NumericalIntegration/pages/graph1.png', width= 300)
+    st.image('pages/graph1.png', width= 300)
 with COL2:
-    st.image('C:/Users/surya/OneDrive/Desktop/NumericalIntegration/pages/simpson.png', width= 300)
+    st.image('pages/simpson.png', width= 300)
 
 st.write('\n')
 st.write('\n')
@@ -75,7 +75,7 @@ with R1:
                        + p(x_{i+1})\right]''')
 
 with R2:
-    st.image('C:/Users/surya/OneDrive/Desktop/NumericalIntegration/pages/simpson1.png', width= 250)
+    st.image('pages/simpson1.png', width= 250)
 
 st.write('\n')
 st.write('\n')
