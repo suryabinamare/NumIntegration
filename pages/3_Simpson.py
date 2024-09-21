@@ -39,15 +39,62 @@ def simpson_value(f, a, b, n, coef):
 
 
 
+#function to generate function values
+def func_values(f,a,b,n):
+    x_value = np.linspace(a,b,200)
+    width = (b - a) / n   
+        # Generate the endpoints of the subintervals
+    endpoints = [a + i * width for i in range(n + 1)]
+    B = np.array(endpoints)
+
+    func = sp.lambdify(x,f,"numpy")
+    y_value = func(x_value)
+    A = func(np.array(endpoints)).tolist()
+    values = [[endpoints[i],A[i]] for i in range(n+1)]
+    pairs = np.array(values)
+    return pairs, x_value, y_value
+
+
+
+#fit the parabolas to given three points and returns function vlaues 
+def parabola(A):
+    x_points = A[:,0]
+    y_points = A[:,1]
+    coeff = np.polyfit(x_points, y_points, 2)
+    parab = np.poly1d(coeff)
+    x_values = np.linspace(min(x_points), max(x_points), 100)
+    y_values = parab(x_values)
+    return x_values, y_values
+
+
+
+
+def graph_parabola(A, n, x, y):
+    fig, ax = plt.subplots()
+    for j in range(int(n/2)):
+        B = A[2*j:2*j+3, :]
+        C,D = parabola(B)
+        ax.plot(C,D, label = 'The Parabola')
+        ax.scatter(B[:,0], B[:,1], color = 'r')
+    ax.plot(x,y, color = 'b', label = 'Function f(x)')
+    ax.fill_between(x, y, color='skyblue', alpha=0.3)
+    ax.set_title("Function and Parabolas")
+    ax.set_xlabel("X-axis")
+    ax.set_ylabel("Y-axis")
+    ax.grid()
+    ax.legend()
+    return st.pyplot(fig)
+
+
 st.subheader('Simpson Rule')
 st.write('''To evaluate $\displaystyle \int_a^b f(x)\,dx$ using the __Simpson rule__, we 
          approximate the integral by dividing the interval [a,b] into $n$
          subintervals of equal width $\Delta x$. The Simpson's Rule 
-         uses parabolas to estimate the area under the curve. The trapezoid in the subinterval
-         $[x_i, x_j] has f(x_i) and f(x_j) as parallel sides. ''')
+         uses parabolas to estimate the area under the curve. ''')
 st.write('''
-For example, the shaded region under the graph on the left graph represents the the value of the $\displaystyle \int_1^3\sin x\,dx$, 
-The graph on the right shows the graph of $y = \sin(x)$ is approximated by the parabola $y = -0.42x^2+1.32x -0.06$. There exists a unique 
+For example, the shaded region under the graph on the left represents the the value of the $\displaystyle \int_1^3\sin x\,dx$, 
+The graph on the right shows the graph of $y = \sin(x)$ is approximated by a parabola whose equation 
+         is $y = -0.42x^2+1.32x -0.06$. Note that there exists a unique 
          parabola that passes through three non-colinear points. The parabola in the graph passes through 
          $A(1, \sin(1)), B(2, \sin(2)),$ and $C(3,\sin(3))$. \n
 ''')
@@ -81,9 +128,9 @@ st.write('\n')
 st.write('\n')
 
 
-st.markdown('''In general, we divide the interval $[a, b]$ into n subintervals as follows. We approximate the curve by a bunch of 
+st.markdown('''In general, we divide the interval $[a, b]$ into n subintervals as follows. We approximate the curve by a number of 
          parabolas, (a parabola over two subintervals). This means that $n$ should be even, and the number of 
-         parabolas would be $\\frac{n}{2}$. Taking the sum of all parabolas, we get''')
+         parabolas would be $\\frac{n}{2}$. Taking the sum of integral of all parabolas, we get''')
 st.latex(r'''
  \begin{align*}
     & a = x_0 < x_1 <x_2< \dots < x_{n-1}<x_n = b, \quad \text{each with the width}\quad \Delta x= \frac{b-a}{n}\\\\
@@ -138,6 +185,14 @@ with C2:
     Actual = sp.integrate(func, (x, a, b))
     st.markdown("__The actual value:__")
     st.write(f'$\displaystyle \int_a^bf(x)\,dx=$ {Actual.evalf():.4f}')
+
+
+st.write('\n')
+st.write('\n')
+st.write('\n')
+st.markdown("<hr style='border: 2px solid black; width: 100%;'>", unsafe_allow_html=True)
+matrix, x_value, y_value = func_values(func,a, b,n)
+graph_parabola(matrix, n, x_value, y_value)
 
 
 
