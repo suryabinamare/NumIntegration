@@ -50,7 +50,27 @@ st.latex(r'''
 
 
 
-
+def graph_trapezoid(f, a, b, n):
+    delta = (b-a)/n
+    
+    points = [a + i*delta for i in range(n+1)]
+    func = sp.lambdify(x,f,"numpy")
+    A = func(np.array(points)).tolist()
+    fig, ax = plt.subplots()
+    for i in range(n):
+        x_value = [points[i], points[i], points[i+1], points[i+1], points[i]]
+        y_value = [0, A[i], A[i+1], 0, 0]
+        ax.plot(x_value,y_value,marker = 'o', label = 'Trapezoid')
+        ax.fill(x_value, y_value, alpha=0.2)  # Fill the trapezoid with color
+    X_Value = np.linspace(a,b,200)
+    Y_Value = func(X_Value)
+    ax.plot(X_Value, Y_Value, color = 'b', label = 'Function f(x)')
+    ax.set_title("Trapezoidal Rule")
+    ax.set_xlabel("X-axis")
+    ax.set_ylabel("Y-axis")
+    ax.grid()
+    ax.legend()
+    return st.pyplot(fig)
 
 
 #to produce numpy array of coefficients of trapezoidal rule: [1,2,2,...., 2,2,1]
@@ -63,6 +83,9 @@ def coeff(n):
 
 
 
+
+
+
 def trapezoidal_rule(f, a, b, n, lst):
     delta = (b-a)/n
     points = [a + i*delta for i in range(n+1)]
@@ -71,6 +94,10 @@ def trapezoidal_rule(f, a, b, n, lst):
     A = func(np.array(points))
     values = A*lst*delta/2
     return np.sum(values)
+
+
+
+
     
 
 st.markdown("<hr style='border: 2px solid black; width: 100%;'>", unsafe_allow_html=True)
@@ -93,8 +120,9 @@ with col3:
 
 # Input function:
 expr = st.text_input("Enter the function f(x) = ", "x**2 + 2*x + 2")
-func = sp.sympify(expr)
 x = sp.symbols('x')
+func = sp.sympify(expr)
+
 
 st.latex('''f(x) = ''')
 st.latex(func)
@@ -110,3 +138,7 @@ with C2:
     Actual = sp.integrate(func, (x, a, b))
     st.markdown("__The actual value:__")
     st.write(f'$\displaystyle \int_a^bf(x)\,dx=$ {Actual.evalf():.4f}')
+
+st.write('\n')
+st.markdown("<hr style='border: 2px solid black; width: 100%;'>", unsafe_allow_html=True)
+graph_trapezoid(func,a,b,n)

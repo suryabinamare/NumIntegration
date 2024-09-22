@@ -75,9 +75,10 @@ def graph_parabola(A, n, x, y):
         B = A[2*j:2*j+3, :]
         C,D = parabola(B)
         ax.plot(C,D, label = 'The Parabola')
+        ax.fill_between(C,D, alpha = 0.2)
         ax.scatter(B[:,0], B[:,1], color = 'r')
     ax.plot(x,y, color = 'b', label = 'Function f(x)')
-    ax.fill_between(x, y, color='skyblue', alpha=0.3)
+    #ax.fill_between(x, y, color='skyblue', alpha=0.3)
     ax.set_title("Function and Parabolas")
     ax.set_xlabel("X-axis")
     ax.set_ylabel("Y-axis")
@@ -190,6 +191,8 @@ with C2:
 st.write('\n')
 st.write('\n')
 st.write('\n')
+
+
 st.markdown("<hr style='border: 2px solid black; width: 100%;'>", unsafe_allow_html=True)
 matrix, x_value, y_value = func_values(func,a, b,n)
 graph_parabola(matrix, n, x_value, y_value)
