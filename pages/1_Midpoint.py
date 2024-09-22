@@ -37,7 +37,7 @@ st.write('In general, we divide the interval $[a,b]$ into $n$ subintervals as fo
 st.latex(r'''
  \begin{align*}
     & a = x_0 < x_1 <x_2< \dots < x_{n-1}<x_n = b \qquad \Delta x= \frac{b-a}{n}  (\text{width of a subinterval})\\
-    & \text{Then, according to the trapezoidal rule the integral is approximated by}\\\\
+    & \text{Then, according to the midpoint rule the integral is approximated by}\\\\
     & \int_a^bf(x)\,dx \approx \left[ \text{the sum of areas of rectangles} \right]\\\\
     & \int_a^bf(x)\,dx \approx \left[\Delta xf\left(\frac{x_0+x_1}{2}\right)+ \Delta xf\left(\frac{x_1+x_2}{2}\right) 
           + \Delta xf\left(\frac{x_2+x_3}{2}\right)
@@ -89,6 +89,14 @@ st.write('__Practice Examples__:')
 st.write('\n')
 
 
+# Input function:
+expr = st.text_input("Enter the function f(x) = ", "x**2 + 2*x + 2")
+func = sp.sympify(expr)
+x = sp.symbols('x')
+
+st.latex('''f(x) = ''')
+st.latex(func)
+
 st.write('__Enter the values for $a, b$, and $n$.__ ')
 
 #input parameters;
@@ -102,27 +110,19 @@ with col3:
 
 
 
-# Input function:
-expr = st.text_input("Enter the function f(x) = ", "x**2 + 2*x + 2")
-func = sp.sympify(expr)
-x = sp.symbols('x')
 
-st.latex('''f(x) = ''')
-st.latex(func)
 
 val = midpoint_rule(expr, a, b, n)
 
 C1, C2 = st.columns(2)
 with C1:
     st.markdown('__The Midpoint value:__')
-    st.write(f'$\displaystyle \int_a^bf(x)\,dx \ \\approx $ {val:.4f}')
+    st.write(f'$\displaystyle \int_a^bf(x)\,dx \ \\approx $ {val:.6f}')
 with C2:
     Actual = sp.integrate(func, (x, a, b))
     st.markdown("__The actual value:__")
-    st.write(f'$\displaystyle \int_a^bf(x)\,dx=$ {Actual.evalf():.4f}')
+    st.write(f'$\displaystyle \int_a^bf(x)\,dx=$ {Actual.evalf():.6f}')
 
 
-
-st.write('\n')
 st.markdown("<hr style='border: 2px solid black; width: 100%;'>", unsafe_allow_html=True)
 graph_midpoint(func,a,b,n)

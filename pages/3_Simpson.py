@@ -148,6 +148,14 @@ st.write('__Practice Examples__:')
 st.write('\n')
 
 
+# Input function:
+expr = st.text_input("Enter the function f(x) = ", "x**2 + 2*x + 2")
+func = sp.sympify(expr)
+x = sp.symbols('x')
+
+st.latex('''f(x) = ''')
+st.latex(func)
+
 
 st.write('__Enter the values for $a, b$, and $n$.__ ')
 
@@ -161,13 +169,7 @@ with col3:
     n = st.number_input('Enter the n: ', value = 6)
 
 
-# Input function:
-expr = st.text_input("Enter the function f(x) = ", "x**2 + 2*x + 2")
-func = sp.sympify(expr)
-x = sp.symbols('x')
 
-st.latex('''f(x) = ''')
-st.latex(func)
 
 
 A = coeff(n)
@@ -181,16 +183,13 @@ S, V = simpson_value(expr, a, b, n, A)
 C1, C2 = st.columns(2)
 with C1:
     st.markdown('__The Simpson value:__')
-    st.write(f'$\displaystyle \int_a^bf(x)\,dx \ \\approx $ {V:.4f}')
+    st.write(f'$\displaystyle \int_a^bf(x)\,dx \ \\approx $ {V:.6f}')
 with C2:
     Actual = sp.integrate(func, (x, a, b))
     st.markdown("__The actual value:__")
-    st.write(f'$\displaystyle \int_a^bf(x)\,dx=$ {Actual.evalf():.4f}')
+    st.write(f'$\displaystyle \int_a^bf(x)\,dx=$ {Actual.evalf():.6f}')
 
 
-st.write('\n')
-st.write('\n')
-st.write('\n')
 
 
 st.markdown("<hr style='border: 2px solid black; width: 100%;'>", unsafe_allow_html=True)

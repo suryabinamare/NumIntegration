@@ -35,11 +35,11 @@ st.write('\n')
 st.write('In general, we divide the interval $[a, b]$ into n subintervals as follows, ')
 st.latex(r'''
  \begin{align*}
-    & a = x_0 < x_1 <x_2< \dots < x_{n-1}<x_n = b, \quad \text{each with the width}\quad \Delta x= \frac{b-a}{n}\\\\
-    & \text{The sum of area of trapezoids} = \frac{\Delta x}{2}\left[f(x_0) + 2f(x_1) + 2f(x_2) + \dots + 2f(x_{n-1}) + f(x_n)\right] \\\\
-    &\text{since the area of the trapezoid for the subinterval $[x_i, x_j]$} = \frac{\Delta x}{2}[f(x_i)+f(x_j)]\\\\
+    & a = x_0 < x_1 <x_2< \dots < x_{n-1}<x_n = b, \quad \text{each with the width}\quad \Delta x= \frac{b-a}{n}\\
+    & \text{The sum of area of trapezoids} = \frac{\Delta x}{2}\left[f(x_0) + 2f(x_1) + 2f(x_2) + \dots + 2f(x_{n-1}) + f(x_n)\right] \\
+    &\text{since the area of the trapezoid for the subinterval $[x_i, x_j]$ is } \frac{\Delta x}{2}[f(x_i)+f(x_j)]\\
 
-    & \text{Thus the integral according to trapezoidal rule can be approximated by;}\\\\
+    & \text{Thus the integral according to trapezoidal rule can be approximated by;}\\
     & \displaystyle \int_a^bf(x)\,dx \approx \frac{\Delta x}{2}\left[f(x_0) + 2f(x_1) 
          + 2f(x_2) + \dots + 2f(x_{n-1}) + f(x_n)\right]\\\\
     & \text{The coefficient 2 is due to trapezoids sharing the middle heights. }
@@ -82,10 +82,6 @@ def coeff(n):
     return lst
 
 
-
-
-
-
 def trapezoidal_rule(f, a, b, n, lst):
     delta = (b-a)/n
     points = [a + i*delta for i in range(n+1)]
@@ -94,17 +90,22 @@ def trapezoidal_rule(f, a, b, n, lst):
     A = func(np.array(points))
     values = A*lst*delta/2
     return np.sum(values)
-
-
-
-
-    
+ 
 
 st.markdown("<hr style='border: 2px solid black; width: 100%;'>", unsafe_allow_html=True)
 
 st.write('\n')
 st.write('__Practice Examples__:')
 st.write('\n')
+
+
+# Input function:
+expr = st.text_input("Enter the function f(x) = ", "x**2 + 2*x + 2")
+x = sp.symbols('x')
+func = sp.sympify(expr)
+
+st.latex('''f(x) = ''')
+st.latex(func)
 
 st.write('__Enter the values for $a, b$, and $n$.__ ')
 #input parameters;
@@ -118,14 +119,7 @@ with col3:
 
 
 
-# Input function:
-expr = st.text_input("Enter the function f(x) = ", "x**2 + 2*x + 2")
-x = sp.symbols('x')
-func = sp.sympify(expr)
 
-
-st.latex('''f(x) = ''')
-st.latex(func)
 
 lst = coeff(n)
 val = trapezoidal_rule(expr, a, b, n, lst)
@@ -133,12 +127,12 @@ val = trapezoidal_rule(expr, a, b, n, lst)
 C1, C2 = st.columns(2)
 with C1:
     st.markdown('__The Trapezoidal value:__')
-    st.write(f'$\displaystyle \int_a^bf(x)\,dx \ \\approx $ {val:.4f}')
+    st.write(f'$\displaystyle \int_a^bf(x)\,dx \ \\approx $ {val:.6f}')
 with C2:
     Actual = sp.integrate(func, (x, a, b))
     st.markdown("__The actual value:__")
-    st.write(f'$\displaystyle \int_a^bf(x)\,dx=$ {Actual.evalf():.4f}')
+    st.write(f'$\displaystyle \int_a^bf(x)\,dx=$ {Actual.evalf():.6f}')
 
-st.write('\n')
+
 st.markdown("<hr style='border: 2px solid black; width: 100%;'>", unsafe_allow_html=True)
 graph_trapezoid(func,a,b,n)
